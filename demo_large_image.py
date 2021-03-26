@@ -9,6 +9,7 @@ from tqdm import tqdm
 import DOTA_devkit.polyiou as polyiou
 import math
 import pdb
+import argparse
 
 def py_cpu_nms_poly_fast_np(dets, thresh):
     obbs = dets[:, 0:-1]
