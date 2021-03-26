@@ -107,11 +107,11 @@ class DetectorModel():
         cv2.imwrite(dstpath, img)
 
 if __name__ == '__main__':
-    roitransformer = DetectorModel(r'configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_dota.py',
-                  r'work_dirs/faster_rcnn_RoITrans_r50_fpn_1x_dota/epoch_12.pth')
+    roitransformer = DetectorModel(r'configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py',
+                  r'work_dirs/mask_rcnn_r50_fpn_1x_dota1_epoch_12.pth')
 
-    roitransformer.inference_single_vis(r'demo/P0009.jpg',
-                                       r'demo/P0009_out.jpg',
+    roitransformer.inference_single_vis(r'data/ship_1024/test1024/images/20190308_060133_ssc10_u0001[DL].png',
+                                       r'demo/20190308_060133_ssc10_u0001[DL].png',
                                         (512, 512),
                                        (1024, 1024))
 

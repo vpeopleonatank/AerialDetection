@@ -12,10 +12,6 @@ class DOTADataset(CocoDataset):
                 'harbor', 'swimming-pool',
                 'helicopter')
 
-class ShipDataset(CocoDataset):
-
-    CLASSES = ('ship',)
-
 class DOTADataset_v3(CocoDataset):
 
     CLASSES = ('plane', 'baseball-diamond',
