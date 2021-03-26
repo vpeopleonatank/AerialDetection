@@ -182,6 +182,7 @@ class RoITransformer(BaseDetectorNew, RPNTestMixin):
             if self.with_shared_head:
                 bbox_feats = self.shared_head(bbox_feats)
             cls_score, bbox_pred = self.bbox_head(bbox_feats)
+            import ipdb; ipdb.set_trace()
             ## rbbox
             rbbox_targets = self.bbox_head.get_target(
                 sampling_results, gt_masks, gt_labels, self.train_cfg.rcnn[0])
