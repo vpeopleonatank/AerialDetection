@@ -106,12 +106,26 @@ class DetectorModel():
         img = draw_poly_detections(srcpath, detections, self.classnames, scale=1, threshold=0.3)
         cv2.imwrite(dstpath, img)
 
-if __name__ == '__main__':
-    roitransformer = DetectorModel(r'configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py',
-                  r'work_dirs/mask_rcnn_r50_fpn_1x_dota1_epoch_12.pth')
+def parse_args():
+    parser = argparse.ArgumentParser(description='MMDet predict large images')
+    parser.add_argument('--config-file', help='config file', type=str,
+            default=r'configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py')
+    parser.add_argument('--checkpoint-path', help='checkpoint path', type=str,
+            default=r'work_dirs/mask_rcnn_r50_fpn_1x_dota1_epoch_12.pth')
+    parser.add_argument('--image-path', help='predict image', type=str,
+            default=r'data/ship_1024/test1024/images/20190308_060133_ssc10_u0001[DL].png')
+    parser.add_argument('--out-path', type=str,
+            default=r'demo/20190308_060133_ssc10_u0001[DL].png')
+    args = parser.parse_args()
+    return args
 
-    roitransformer.inference_single_vis(r'data/ship_1024/test1024/images/20190308_060133_ssc10_u0001[DL].png',
-                                       r'demo/20190308_060133_ssc10_u0001[DL].png',
+if __name__ == '__main__':
+    args = parse_args()
+    roitransformer = DetectorModel(args.config_file,
+                  args.checkpoint_path)
+
+    roitransformer.inference_single_vis(args.image_path,
+                                       args.out_path,
                                         (512, 512),
                                        (1024, 1024))
 
