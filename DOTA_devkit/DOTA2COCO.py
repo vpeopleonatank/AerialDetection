@@ -65,6 +65,7 @@ def DOTA2COCOTrain(srcpath, destfile, cls_names, difficult='2'):
                 single_obj['id'] = inst_count
                 inst_count = inst_count + 1
             image_id = image_id + 1
+        print(inst_count)
         json.dump(data_dict, f_out)
 
 def DOTA2COCOTest(srcpath, destfile, cls_names):
@@ -99,15 +100,15 @@ def DOTA2COCOTest(srcpath, destfile, cls_names):
 
 if __name__ == '__main__':
 
-    DOTA2COCOTrain(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/trainval1024',
-                   r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/trainval1024/DOTA_trainval1024.json',
-                   wordname_15)
-    DOTA2COCOTrain(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/trainval1024_ms',
-                   r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/trainval1024_ms/DOTA_trainval1024_ms.json',
-                   wordname_15)
-    DOTA2COCOTest(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024',
-                  r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024/DOTA_test1024.json',
-                  wordname_15)
-    DOTA2COCOTest(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms',
-                  r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms/DOTA_test1024_ms.json',
-                  wordname_15)
+    # DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota',
+    #                r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota/DOTA_trainval1024.json',
+    #                ['ship'])
+    # DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
+    #                r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/DOTA_trainval_full_1024.json',
+    #                ['ship'])
+    DOTA2COCOTest(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024',
+                  r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024/DOTA_test1024.json',
+                  ['ship'])
+    # DOTA2COCOTest(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms',
+    #               r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms/DOTA_test1024_ms.json',
+    #               wordname_15)
