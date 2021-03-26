@@ -141,6 +141,7 @@ test_cfg = dict(
 )
 # dataset settings
 dataset_type = 'ShipDataset'
+classes = ('ship', )
 data_root = 'data/ship_1024/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -157,7 +158,8 @@ data = dict(
         flip_ratio=0.5,
         with_mask=True,
         with_crowd=True,
-        with_label=True),
+        with_label=True,
+        classes=classes),
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'trainval1024/Shipdata_trainval_full_1024.json',
@@ -168,7 +170,8 @@ data = dict(
         flip_ratio=0,
         with_mask=True,
         with_crowd=True,
-        with_label=True),
+        with_label=True,
+        classes=classes),
     test=dict(
         type=dataset_type,
         ann_file=data_root + 'test1024/DOTA_test1024.json',
@@ -181,7 +184,8 @@ data = dict(
         flip_ratio=0,
         with_mask=False,
         with_label=False,
-        test_mode=True))
+        test_mode=True,
+        classes=classes))
 # optimizer
 optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
