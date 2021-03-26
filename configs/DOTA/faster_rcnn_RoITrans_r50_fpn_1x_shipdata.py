@@ -206,6 +206,6 @@ total_epochs = 10
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/faster_rcnn_RoITrans_r50_fpn_1x_shipdata'
-load_from = None
+load_from = './work_dirs/mask_rcnn_r50_fpn_1x_dota1_epoch_12.pth'
 resume_from = None
 workflow = [('train', 1)]
