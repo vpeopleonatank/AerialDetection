@@ -37,7 +37,7 @@ model = dict(
         in_channels=256,
         fc_out_channels=1024,
         roi_feat_size=7,
-        num_classes=16,
+        num_classes=1,
         target_means=[0., 0., 0., 0., 0.],
         target_stds=[0.1, 0.1, 0.2, 0.2, 0.1],
         reg_class_agnostic=True,
@@ -56,7 +56,7 @@ model = dict(
         in_channels=256,
         fc_out_channels=1024,
         roi_feat_size=7,
-        num_classes=16,
+        num_classes=1,
         target_means=[0., 0., 0., 0., 0.],
         target_stds=[0.05, 0.05, 0.1, 0.1, 0.05],
         reg_class_agnostic=False,
@@ -183,7 +183,7 @@ data = dict(
         with_label=False,
         test_mode=True))
 # optimizer
-optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 # learning policy
 lr_config = dict(
