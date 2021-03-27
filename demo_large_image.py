@@ -123,7 +123,7 @@ def parse_args():
             default=r'data/ship_1024/test1024/images/20190308_060133_ssc10_u0001[DL].png')
     parser.add_argument('--out-path', type=str,
             default=r'demo/20190308_060133_ssc10_u0001[DL].png')
-    parser.add_argument('--specified-class', type=list,
+    parser.add_argument('--specified-class', nargs='+',
             default=None)
     args = parser.parse_args()
     return args
