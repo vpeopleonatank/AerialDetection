@@ -1,3 +1,4 @@
+from shutil import SpecialFileError
 from mmdet.apis import init_detector, inference_detector, show_result, draw_poly_detections
 import mmcv
 from mmcv import Config
@@ -60,7 +61,8 @@ def py_cpu_nms_poly_fast_np(dets, thresh):
 class DetectorModel():
     def __init__(self,
                  config_file,
-                 checkpoint_file):
+                 checkpoint_file,
+                 specified_class=None):
         # init RoITransformer
         self.config_file = config_file
         self.checkpoint_file = checkpoint_file
@@ -69,6 +71,7 @@ class DetectorModel():
         self.dataset = get_dataset(self.data_test)
         self.classnames = self.dataset.CLASSES
         self.model = init_detector(config_file, checkpoint_file, device='cuda:0')
+        self.specified_class = specified_class
 
     def inference_single(self, imagname, slide_size, chip_size):
         img = mmcv.imread(imagname)
@@ -90,6 +93,9 @@ class DetectorModel():
 
                 # print('result: ', result)
                 for cls_id, name in enumerate(self.classnames):
+                    if self.specified_class is not None and name not in self.specified_class:
+                        continue
+
                     chip_detections[cls_id][:, :8][:, ::2] = chip_detections[cls_id][:, :8][:, ::2] + i * slide_w
                     chip_detections[cls_id][:, :8][:, 1::2] = chip_detections[cls_id][:, :8][:, 1::2] + j * slide_h
                     # import pdb;pdb.set_trace()
@@ -117,13 +123,15 @@ def parse_args():
             default=r'data/ship_1024/test1024/images/20190308_060133_ssc10_u0001[DL].png')
     parser.add_argument('--out-path', type=str,
             default=r'demo/20190308_060133_ssc10_u0001[DL].png')
+    parser.add_argument('--specified-class', type=list,
+            default=None)
     args = parser.parse_args()
     return args
 
 if __name__ == '__main__':
     args = parse_args()
     roitransformer = DetectorModel(args.config_file,
-                  args.checkpoint_path)
+                  args.checkpoint_path, args.specified_class)
 
     roitransformer.inference_single_vis(args.image_path,
                                        args.out_path,
