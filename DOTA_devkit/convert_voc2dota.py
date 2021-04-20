@@ -62,7 +62,6 @@ def read_images(img_path, label_path):
 def convert_voc2dota(folder_path, folder_out_path):
     image_paths = glob.glob(f"{folder_path}/*.png")
     
-    import ipdb; ipdb.set_trace()
     for image_path in image_paths:
         base_path = f'{os.path.dirname(image_path)}'
         file_name = os.path.splitext(os.path.basename(image_path))[0]
