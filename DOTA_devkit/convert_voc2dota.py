@@ -60,8 +60,9 @@ def read_images(img_path, label_path):
     
 
 def convert_voc2dota(folder_path, folder_out_path):
-    image_paths = glob.glob(f"{folder_path}*.png")
+    image_paths = glob.glob(f"{folder_path}/*.png")
     
+    import ipdb; ipdb.set_trace()
     for image_path in image_paths:
         base_path = f'{os.path.dirname(image_path)}'
         file_name = os.path.splitext(os.path.basename(image_path))[0]
@@ -152,12 +153,12 @@ def main():
     # label_path = '/home/vpoat/Desktop/vis2.xml'
     # read_label(label_path)
     # read_images(img_path, label_path)
-    # folder_path = '/mnt/Data/Project/ShipDetection/Data_Ship/AnnotatedData/'
-    # out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_annotated_format/labelTxt'
-    # convert_voc2dota(folder_path, out_folder)
+    folder_path = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
+    out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
+    convert_voc2dota(folder_path, out_folder)
 
-    split_data_have_label('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_splitted_1024/',
-                    '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
+    # split_data_have_label('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_splitted_1024/',
+    #                 '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
 
     # train_val_split('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
     #                 '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
