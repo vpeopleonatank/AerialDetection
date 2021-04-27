@@ -135,6 +135,7 @@ if __name__ == '__main__':
                   args.checkpoint_path, args.specified_class)
 
     if args.predict_folder:
+        os.makedirs(args.out_path, exist_ok=True)
         for image_path in os.listdir(args.image_path):
             roitransformer.inference_single_vis(os.path.join(args.image_path, image_path),
                                             os.path.join(args.out_path, image_path),
