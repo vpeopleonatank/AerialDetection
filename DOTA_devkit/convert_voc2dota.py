@@ -156,8 +156,8 @@ def main():
     out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
     convert_voc2dota(folder_path, out_folder)
 
-    # split_data_have_label('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_splitted_1024/',
-    #                 '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
+    split_data_have_label('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_splitted_1024/',
+                    '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
 
     # train_val_split('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
     #                 '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')

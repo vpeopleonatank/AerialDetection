@@ -125,6 +125,7 @@ def parse_args():
             default=r'demo/20190308_060133_ssc10_u0001[DL].png')
     parser.add_argument('--specified-class', nargs='+',
             default=None)
+    parser.add_argument('--predict-folder', default=False, action='store_true')
     args = parser.parse_args()
     return args
 
@@ -133,8 +134,14 @@ if __name__ == '__main__':
     roitransformer = DetectorModel(args.config_file,
                   args.checkpoint_path, args.specified_class)
 
-    roitransformer.inference_single_vis(args.image_path,
-                                       args.out_path,
+    if args.predict_folder:
+        for image_path in os.listdir(args.image_path):
+            roitransformer.inference_single_vis(os.path.join(args.image_path, image_path),
+                                            os.path.join(args.out_path, image_path),
+                                            (512, 512),
+                                            (1024, 1024))
+    else:
+        roitransformer.inference_single_vis(args.image_path,
+                                        args.out_path,
                                         (512, 512),
-                                       (1024, 1024))
-
+                                        (1024, 1024))

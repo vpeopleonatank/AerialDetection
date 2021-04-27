@@ -103,12 +103,12 @@ if __name__ == '__main__':
     # DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota',
     #                r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota/DOTA_trainval1024.json',
     #                ['ship'])
-    # DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
-    #                r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/DOTA_trainval_full_1024.json',
-    #                ['ship'])
-    DOTA2COCOTest(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024',
-                  r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024/DOTA_test1024.json',
-                  ['ship'])
+    DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
+                   r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/DOTA_trainval_full_1024.json',
+                   ['ship'])
+    # DOTA2COCOTest(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024',
+    #               r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024/DOTA_test1024.json',
+    #               ['ship'])
     # DOTA2COCOTest(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms',
     #               r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms/DOTA_test1024_ms.json',
     #               wordname_15)
