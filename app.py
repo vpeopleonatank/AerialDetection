@@ -7,6 +7,7 @@ from io import BytesIO
 import numpy as np
 from typing import List
 import uvicorn
+import cv2
 
 
 app = FastAPI()
@@ -14,8 +15,13 @@ app = FastAPI()
 
 model = DetectorModel(config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.getenv("CKPT_PATH"))
 
+# def load_image_into_numpy_array(data):
+#     return np.array(Image.open(BytesIO(data)))
 def load_image_into_numpy_array(data):
-    return np.array(Image.open(BytesIO(data)))
+    npimg = np.frombuffer(data, np.uint8)
+    frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+    cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    return frame
 
 @app.post('/upload')
 async def upload_file(files: List[UploadFile] = File(...)):
