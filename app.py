@@ -1,9 +1,10 @@
 import os
-# from demo_large_image import DetectorModel
+from demo_large_image import DetectorModel
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
-import io, json
-import base64
+from PIL import Image
+from io import BytesIO
+import numpy as np
 from typing import List
 import uvicorn
 
@@ -11,11 +12,18 @@ import uvicorn
 app = FastAPI()
 
 
-# model = DetectorModel(config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.getenv("CKPT_PATH"))
+model = DetectorModel(config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.getenv("CKPT_PATH"))
+
+def load_image_into_numpy_array(data):
+    return np.array(Image.open(BytesIO(data)))
 
 @app.post('/upload')
-def upload_file(files: List[UploadFile] = File(...)):
+async def upload_file(files: List[UploadFile] = File(...)):
     print('Arrived')
+    for file in files:
+        img = load_image_into_numpy_array(await file.read())
+        detections = model.inference_single(img, (512, 512), (1024, 1024))
+        import ipdb; ipdb.set_trace()
 
 if __name__ == "__main__":
     # Run app with uvicorn with port and host specified. Host needed for docker port mapping

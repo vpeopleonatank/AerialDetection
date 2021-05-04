@@ -73,8 +73,8 @@ class DetectorModel():
         self.model = init_detector(config_file, checkpoint_file, device='cuda:0')
         self.specified_class = specified_class
 
-    def inference_single(self, imagname, slide_size, chip_size):
-        img = mmcv.imread(imagname)
+    def inference_single(self, imgname, slide_size, chip_size):
+        img = mmcv.imread(imgname)
         height, width, channel = img.shape
         slide_h, slide_w = slide_size
         hn, wn = chip_size
@@ -126,6 +126,8 @@ def parse_args():
     parser.add_argument('--specified-class', nargs='+',
             default=None)
     parser.add_argument('--predict-folder', default=False, action='store_true')
+    parser.add_argument('--chip-size', default=1024)
+    parser.add_argument('--slide-size', default=512)
     args = parser.parse_args()
     return args
 
@@ -139,10 +141,10 @@ if __name__ == '__main__':
         for image_path in os.listdir(args.image_path):
             roitransformer.inference_single_vis(os.path.join(args.image_path, image_path),
                                             os.path.join(args.out_path, image_path),
-                                            (512, 512),
-                                            (1024, 1024))
+                                            (args.chip_size, args.chip_size),
+                                            (args.slide_size, args.slide_size))
     else:
         roitransformer.inference_single_vis(args.image_path,
                                         args.out_path,
-                                        (512, 512),
-                                        (1024, 1024))
+                                        (args.chip_size, args.chip_size),
+                                        (args.slide_size, args.slide_size))
