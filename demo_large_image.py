@@ -126,8 +126,8 @@ def parse_args():
     parser.add_argument('--specified-class', nargs='+',
             default=None)
     parser.add_argument('--predict-folder', default=False, action='store_true')
-    parser.add_argument('--chip-size', default=1024)
-    parser.add_argument('--slide-size', default=512)
+    parser.add_argument('--chip-size', type=int, default=1024)
+    parser.add_argument('--slide-size', type=int, default=512)
     args = parser.parse_args()
     return args
 
