@@ -22,7 +22,7 @@ async def upload_file(files: List[UploadFile] = File(...)):
     print('Arrived')
     for file in files:
         img = load_image_into_numpy_array(await file.read())
-        detections = model.inference_single(img, (512, 512), (1024, 1024))
+        detections = model.inference_single(img, (1024, 1024), (3072, 3072))
         import ipdb; ipdb.set_trace()
 
 if __name__ == "__main__":
