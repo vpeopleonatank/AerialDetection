@@ -127,7 +127,7 @@ def parse_args():
             default=None)
     parser.add_argument('--predict-folder', default=False, action='store_true')
     parser.add_argument('--chip-size', type=int, default=1024)
-    parser.add_argument('--slide-size', type=int, default=512)
+    parser.add_argument('--slide-size', type=int, default=256)
     args = parser.parse_args()
     return args
 
