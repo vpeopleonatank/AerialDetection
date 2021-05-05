@@ -1,6 +1,8 @@
 import os
 from demo_large_image import DetectorModel
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import BaseModel
 from PIL import Image
 from io import BytesIO
@@ -63,6 +65,16 @@ def create_category_info(supercategory, id, name):
     return category_info
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 CLASSES = ('ship',)
 model = DetectorModel(config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.getenv("CKPT_PATH"))
