@@ -64,6 +64,15 @@ def create_category_info(supercategory, id, name):
     
     return category_info
 
+meta_info = {
+    "year": 2021,
+    "version": "1.0",
+    "description": "Ship detection",
+    "contributor": "",
+    "url": "via",
+    "date_created": ""
+  }
+
 app = FastAPI()
 
 origins = ["*"]
@@ -90,7 +99,7 @@ def load_image_into_numpy_array(data):
 @app.post('/detectship')
 async def upload_file(files: List[UploadFile] = File(...)):
     print('Arrived')
-    res = { "images": [], "annotations": [], "categories": []}
+    res = { "info": meta_info, "images": [], "annotations": [], "categories": []}
 
     try:
         for i, name in enumerate(CLASSES):
