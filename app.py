@@ -94,7 +94,7 @@ model = DetectorModel(config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.g
 def load_image_into_numpy_array(data):
     npimg = np.frombuffer(data, np.uint8)
     frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-    cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    # cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     return frame
 
 @app.post('/detectship')
