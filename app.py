@@ -131,8 +131,9 @@ async def upload_file(files: List[UploadFile] = File(...)):
 
             image_id += 1
 
-    except:
+    except Exception as e:
         import ipdb; ipdb.set_trace()
+        print(e)
     # str_res = json.dumps(res)
     return res
 
@@ -140,4 +141,4 @@ async def upload_file(files: List[UploadFile] = File(...)):
 
 if __name__ == "__main__":
     # Run app with uvicorn with port and host specified. Host needed for docker port mapping
-    uvicorn.run(app, port=80, host="0.0.0.0")
+    uvicorn.run(app, port=80, host="0.0.0.0", reload=True)
