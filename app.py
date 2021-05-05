@@ -51,6 +51,7 @@ def create_annotation_info(annotation_id, image_id, category_info, det, encoded_
         "area": area.tolist(),
         "bbox": bounding_box.tolist(),
         "segmentation": [ptns],
+        "score": det[-1]
     } 
 
     return annotation_info
@@ -109,10 +110,13 @@ async def upload_file(files: List[UploadFile] = File(...)):
         for file in files:
             img = load_image_into_numpy_array(await file.read())
             width, height, _ = img.shape
-            detections = model.inference_single(img, (1024, 1024), (3072, 3072))
+            # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
+            detections = model.inference_single(img, (512, 512), (1024, 1024))
             res["images"].append(create_image_info(image_id, file.filename, (height, width)))
             for i, _ in enumerate(CLASSES):
                 dets = detections[i]
+                if dets[-1] < 0.3:
+                    continue
                 ptns = [det[:8] for det in dets]
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
