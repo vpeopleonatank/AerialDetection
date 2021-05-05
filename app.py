@@ -108,9 +108,12 @@ async def upload_file(files: List[UploadFile] = File(...)):
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
                 for j, det in enumerate(dets):
-                    res["annotations"].append(create_annotation_info(annotation_id, image_id,
+                    ann = create_annotation_info(annotation_id, image_id,
                         res["categories"][0],
-                        det, masks[j]))
+                        det, masks[j])
+                    if ann is None:
+                        continue
+                    res["annotations"].append(ann)
                     annotation_id += 1
 
             image_id += 1
