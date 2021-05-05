@@ -146,5 +146,5 @@ if __name__ == '__main__':
     else:
         roitransformer.inference_single_vis(args.image_path,
                                         args.out_path,
-                                        (args.chip_size, args.chip_size),
-                                        (args.slide_size, args.slide_size))
+                                        (args.slide_size, args.slide_size),
+                                        (args.chip_size, args.chip_size))
