@@ -80,30 +80,34 @@ async def upload_file(files: List[UploadFile] = File(...)):
     print('Arrived')
     res = { "images": [], "annotations": [], "categories": []}
 
-    for i, name in enumerate(CLASSES):
-        res["categories"].append(create_category_info(name, i+1, name))
-    image_id = 1
-    annotation_id = 1
-    for file in files:
-        img = load_image_into_numpy_array(await file.read())
-        width, height, _ = img.shape
-        detections = model.inference_single(img, (1024, 1024), (3072, 3072))
-        res["images"].append(create_image_info(image_id, file.filename, (height, width)))
-        for i, _ in enumerate(CLASSES):
-            dets = detections[i]
-            ptns = [det[:8] for det in dets]
-            masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
+    try:
+        for i, name in enumerate(CLASSES):
+            res["categories"].append(create_category_info(name, i+1, name))
+        image_id = 1
+        annotation_id = 1
+        for file in files:
+            img = load_image_into_numpy_array(await file.read())
+            width, height, _ = img.shape
+            detections = model.inference_single(img, (1024, 1024), (3072, 3072))
+            res["images"].append(create_image_info(image_id, file.filename, (height, width)))
+            for i, _ in enumerate(CLASSES):
+                dets = detections[i]
+                ptns = [det[:8] for det in dets]
+                masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
-            for j, det in enumerate(dets):
-                res["annotations"].append(create_annotation_info(annotation_id, image_id,
-                    res["categories"][0],
-                    det, masks[j]))
-                annotation_id += 1
+                for j, det in enumerate(dets):
+                    res["annotations"].append(create_annotation_info(annotation_id, image_id,
+                        res["categories"][0],
+                        det, masks[j]))
+                    annotation_id += 1
 
-        image_id += 1
+            image_id += 1
 
+    except:
+        import ipdb; ipdb.set_trace()
     # str_res = json.dumps(res)
     return res
+
 
 
 if __name__ == "__main__":
