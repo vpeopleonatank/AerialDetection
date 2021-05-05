@@ -115,12 +115,12 @@ async def upload_file(files: List[UploadFile] = File(...)):
             res["images"].append(create_image_info(image_id, file.filename, (height, width)))
             for i, _ in enumerate(CLASSES):
                 dets = detections[i]
-                if dets[-1] < 0.3:
-                    continue
                 ptns = [det[:8] for det in dets]
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
                 for j, det in enumerate(dets):
+                    if det[-1] < 0.3:
+                        continue
                     ann = create_annotation_info(annotation_id, image_id,
                         res["categories"][0],
                         det, masks[j])
