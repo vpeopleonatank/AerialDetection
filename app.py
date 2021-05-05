@@ -110,8 +110,8 @@ async def upload_file(files: List[UploadFile] = File(...)):
         for file in files:
             img = load_image_into_numpy_array(await file.read())
             width, height, _ = img.shape
-            detections = model.inference_single(img, (1024, 1024), (3072, 3072))
-            # detections = model.inference_single(img, (512, 512), (1024, 1024))
+            # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
+            detections = model.inference_single(img, (512, 512), (1024, 1024))
             res["images"].append(create_image_info(image_id, file.filename, (height, width)))
             for i, _ in enumerate(CLASSES):
                 dets = detections[i]
