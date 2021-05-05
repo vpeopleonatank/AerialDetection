@@ -115,7 +115,7 @@ async def upload_file(files: List[UploadFile] = File(...)):
             res["images"].append(create_image_info(image_id, file.filename, (height, width)))
             for i, _ in enumerate(CLASSES):
                 dets = detections[i]
-                with open('/root/tmp/demo/dets.npy', 'rw') as f:
+                with open('/root/tmp/demo/dets.npy', 'wb') as f:
                     np.save(f, dets)
                 ptns = [det[:8] for det in dets]
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
