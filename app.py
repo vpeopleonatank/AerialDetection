@@ -115,14 +115,12 @@ async def upload_file(files: List[UploadFile] = File(...)):
             res["images"].append(create_image_info(image_id, file.filename, (width, height)))
             for i, _ in enumerate(CLASSES):
                 dets = detections[i]
-                with open('/root/tmp/demo/dets.npy', 'wb') as f:
-                    np.save(f, dets)
+                # with open('/root/tmp/demo/dets.npy', 'wb') as f:
+                #     np.save(f, dets)
                 ptns = [det[:8] for det in dets]
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
                 for j, det in enumerate(dets):
-                    if int(det[1]) >= 14035:
-                        import ipdb; ipdb.set_trace()
                     if det[-1] < 0.3:
                         continue
                     if det[-1] >= 0.996:
