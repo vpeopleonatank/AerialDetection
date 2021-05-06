@@ -121,10 +121,10 @@ async def upload_file(files: List[UploadFile] = File(...)):
                 masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
                 for j, det in enumerate(dets):
-                    if det[-1] < 0.3:
-                        continue
                     if int(det[-1] == 14035):
                         import ipdb; ipdb.set_trace()
+                    if det[-1] < 0.3:
+                        continue
                     if det[-1] >= 0.996:
                         print(det)
                     ann = create_annotation_info(annotation_id, image_id,
