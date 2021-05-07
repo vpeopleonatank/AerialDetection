@@ -102,47 +102,52 @@ async def upload_file(files: List[UploadFile] = File(...)):
     print('Arrived')
     res = { "info": meta_info, "images": [], "annotations": [], "categories": []}
 
-    try:
-        for i, name in enumerate(CLASSES):
-            res["categories"].append(create_category_info(name, i+1, name))
-        image_id = 1
-        annotation_id = 1
-        for file in files:
-            img = load_image_into_numpy_array(await file.read())
-            height, width, _ = img.shape
-            # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
-            detections = model.inference_single(img, (512, 512), (1024, 1024))
-            res["images"].append(create_image_info(image_id, file.filename, (width, height)))
-            for i, _ in enumerate(CLASSES):
-                dets = detections[i]
-                # with open('/root/tmp/demo/dets.npy', 'wb') as f:
-                #     np.save(f, dets)
-                ptns = [det[:8] for det in dets]
-                masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
+    with open('/root/tmp/data/results.json', 'r') as f:
+        data = json.load(f)
 
-                for j, det in enumerate(dets):
-                    if det[-1] < 0.3:
-                        continue
-                    if det[-1] >= 0.996:
-                        print(det)
-                    ann = create_annotation_info(annotation_id, image_id,
-                        res["categories"][0],
-                        det, masks[j])
-                    if ann is None:
-                        continue
-                    res["annotations"].append(ann)
-                    annotation_id += 1
+    return data
 
-            image_id += 1
+    # try:
+    #     for i, name in enumerate(CLASSES):
+    #         res["categories"].append(create_category_info(name, i+1, name))
+    #     image_id = 1
+    #     annotation_id = 1
+    #     for file in files:
+    #         img = load_image_into_numpy_array(await file.read())
+    #         height, width, _ = img.shape
+    #         # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
+    #         detections = model.inference_single(img, (512, 512), (1024, 1024))
+    #         res["images"].append(create_image_info(image_id, file.filename, (width, height)))
+    #         for i, _ in enumerate(CLASSES):
+    #             dets = detections[i]
+    #             # with open('/root/tmp/demo/dets.npy', 'wb') as f:
+    #             #     np.save(f, dets)
+    #             ptns = [det[:8] for det in dets]
+    #             masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
-        with open('/root/tmp/data/results.json', 'w') as f:
-            json.dump(res, f)
+    #             for j, det in enumerate(dets):
+    #                 if det[-1] < 0.3:
+    #                     continue
+    #                 if det[-1] >= 0.996:
+    #                     print(det)
+    #                 ann = create_annotation_info(annotation_id, image_id,
+    #                     res["categories"][0],
+    #                     det, masks[j])
+    #                 if ann is None:
+    #                     continue
+    #                 res["annotations"].append(ann)
+    #                 annotation_id += 1
 
-    except Exception as e:
-        import ipdb; ipdb.set_trace()
-        print(e)
-    # str_res = json.dumps(res)
-    return res
+    #         image_id += 1
+
+    #     with open('/root/tmp/data/results.json', 'w') as f:
+    #         json.dump(res, f)
+
+    # except Exception as e:
+    #     import ipdb; ipdb.set_trace()
+    #     print(e)
+    # # str_res = json.dumps(res)
+    # return res
 
 
 
