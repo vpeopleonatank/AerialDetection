@@ -128,8 +128,6 @@ async def upload_file(files: List[UploadFile] = File(...)):
                 for j, det in enumerate(dets):
                     if det[-1] < 0.3:
                         continue
-                    if det[-1] >= 0.996:
-                        print(det)
                     ann = create_annotation_info(annotation_id, image_id,
                         res["categories"][0],
                         det, masks[j])
@@ -140,11 +138,11 @@ async def upload_file(files: List[UploadFile] = File(...)):
 
             image_id += 1
 
-        with open('/root/tmp/data/results.json', 'w') as f:
-            json.dump(res, f)
+        # with open('/root/tmp/data/results.json', 'w') as f:
+        #     json.dump(res, f)
 
     except Exception as e:
-        import ipdb; ipdb.set_trace()
+        # import ipdb; ipdb.set_trace()
         print(e)
     # str_res = json.dumps(res)
     return res
