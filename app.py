@@ -111,7 +111,6 @@ async def upload_file(files: List[UploadFile] = File(...)):
             img = load_image_into_numpy_array(await file.read())
             height, width, _ = img.shape
             # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
-            import ipdb; ipdb.set_trace()
             detections = model.inference_single(img, (512, 512), (1024, 1024))
             res["images"].append(create_image_info(image_id, file.filename, (width, height)))
             for i, _ in enumerate(CLASSES):
@@ -135,6 +134,9 @@ async def upload_file(files: List[UploadFile] = File(...)):
                     annotation_id += 1
 
             image_id += 1
+
+        with open('/root/tmp/data/results.json', 'w') as f:
+            json.dump(res, f)
 
     except Exception as e:
         import ipdb; ipdb.set_trace()
