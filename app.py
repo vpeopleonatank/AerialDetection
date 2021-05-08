@@ -140,8 +140,8 @@ async def upload_file(files: List[UploadFile] = File(...)):
 
             image_id += 1
 
-        with open('/root/tmp/data/results.json', 'w') as f:
-            json.dump(res, f)
+        #with open('/root/tmp/data/results.json', 'w') as f:
+        #    json.dump(res, f)
 
     except Exception as e:
         import ipdb; ipdb.set_trace()
