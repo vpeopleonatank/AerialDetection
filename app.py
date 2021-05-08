@@ -15,7 +15,7 @@ from pycocotools import mask, _mask
 import json
 
 
-def create_image_info(image_id, file_name, image_size, 
+def create_image_info(image_id, file_name, image_size,
                       date_captured=datetime.datetime.utcnow().isoformat(' '),
                       license_id=1, coco_url="", flickr_url=""):
 
@@ -52,7 +52,7 @@ def create_annotation_info(annotation_id, image_id, category_info, det, encoded_
         "bbox": bounding_box.tolist(),
         "segmentation": [ptns],
         "score": det[-1]
-    } 
+    }
 
     return annotation_info
 
@@ -62,7 +62,7 @@ def create_category_info(supercategory, id, name):
         "id": id,
         "name": name
     }
-    
+
     return category_info
 
 meta_info = {
