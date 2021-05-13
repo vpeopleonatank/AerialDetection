@@ -6,6 +6,7 @@ import xml.etree.ElementTree as ET
 import glob
 import os
 import shutil
+import argparse
 
 def read_label(xml_file: str):
 
@@ -146,23 +147,35 @@ def train_val_split(src_path, out_path, val_ratio=0.1):
     print(f"train dataset: {len(image_paths) - val_num} images\nvalid dataset: {val_num} images")
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='MMDet predict large images')
+    parser.add_argument('--function', help='1: convert_voc2dota, 2: split_data_have_label, 3: train_val_split', type=str,
+            default=r'1')
+    parser.add_argument('--in-folder', help='input folder', type=str,
+            default=r'/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data')
+    parser.add_argument('--out-folder', help='output folder', type=str,
+            default=r'/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data')
+    
+    args = parser.parse_args()
+
+    return args
+
 def main():
     # img_path = '/mnt/Data/Project/ShipDetection/Data_Ship/AnnotatedData/20190308_060133_ssc10_u0001[DL].png'
     # label_path =  '/mnt/Data/Project/ShipDetection/Data_Ship/AnnotatedData/20190308_060133_ssc10_u0001[DL].xml' 
     # label_path = '/home/vpoat/Desktop/vis2.xml'
     # read_label(label_path)
     # read_images(img_path, label_path)
-    folder_path = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
-    out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
-    convert_voc2dota(folder_path, out_folder)
 
-    split_data_have_label('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_splitted_1024/',
-                    '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
-
-    # train_val_split('/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
-    #                 '/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/')
-
-
+    args = parse_args()
+    # folder_path = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
+    # out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
+    if args.function == "1":
+        convert_voc2dota(args.in_folder, args.out_folder)
+    elif args.function == "2":
+        split_data_have_label(args.in_folder, args.out_folder)
+    elif args.function == "3":
+        train_val_split(args.in_folder, args.out_folder)
 
 
 if __name__ == '__main__':
