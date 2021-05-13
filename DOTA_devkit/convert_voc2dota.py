@@ -172,8 +172,10 @@ def main():
     # out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
     if args.function == "1":
         convert_voc2dota(args.in_folder, args.out_folder)
+        print('1')
     elif args.function == "2":
         split_data_have_label(args.in_folder, args.out_folder)
+        print('2')
     elif args.function == "3":
         train_val_split(args.in_folder, args.out_folder)
 
