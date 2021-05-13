@@ -3,6 +3,7 @@ import os
 import cv2
 import json
 from PIL import Image
+import argparse
 
 wordname_15 = ['plane', 'baseball-diamond', 'bridge', 'ground-track-field', 'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
                'basketball-court', 'storage-tank',  'soccer-ball-field', 'roundabout', 'harbor', 'swimming-pool', 'helicopter']
@@ -98,17 +99,33 @@ def DOTA2COCOTest(srcpath, destfile, cls_names):
             image_id = image_id + 1
         json.dump(data_dict, f_out)
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='MMDet predict large images')
+    parser.add_argument('--function', help='1: train, 2: test', type=str,
+            default=r'1')
+    parser.add_argument('--in-folder', help='input folder', type=str,
+            default=r'/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data')
+    parser.add_argument('--out-folder', help='output folder', type=str,
+            default=r'/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data')
+    
+    args = parser.parse_args()
+
+    return args
+
 if __name__ == '__main__':
+    args = parse_args()
 
     # DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota',
     #                r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/train_dota/DOTA_trainval1024.json',
     #                ['ship'])
-    DOTA2COCOTrain(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/',
-                   r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/DOTA_trainval_full_1024.json',
-                   ['ship'])
-    # DOTA2COCOTest(r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024',
-    #               r'/mnt/Data/Project/ShipDetection/Data_Ship/DOTA_truncated_splitted_1024/test1024/DOTA_test1024.json',
-    #               ['ship'])
+    if args.function == "1":
+        DOTA2COCOTrain(args.in_folder,
+                    args.out_folder,
+                    ['ship'])
+    elif args.function == "2":
+        DOTA2COCOTest(args.in_folder,
+                    args.out_folder,
+                    ['ship'])
     # DOTA2COCOTest(r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms',
     #               r'/home/dj/code/mmdetection_DOTA/data/dota1_1024_v2/test1024_ms/DOTA_test1024_ms.json',
     #               wordname_15)
