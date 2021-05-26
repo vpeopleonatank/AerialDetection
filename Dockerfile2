@@ -82,14 +82,29 @@ WORKDIR $HOME/AerialDetection/DOTA_devkit
 RUN swig -c++ -python polyiou.i
 RUN python3 setup.py build_ext --inplace
 
-USER ${USER}
+
+WORKDIR $HOME/AerialDetection/
+
+ENV CONFIG_PATH='configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py'
+ENV CKPT_PATH='work_dirs/epoch_49.pth'
+
+RUN pip install fastapi uvicorn python-multipart
+
+EXPOSE 80
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "80"]
+
+# CMD ["python", "app.py"]
+
+# USER ${USER}
 # Expose port 8888 for JupyterLab
-EXPOSE 22 8888
+# EXPOSE 22 8888
 
 # Start openssh server
-USER root
-RUN mkdir /run/sshd
-CMD ["/usr/sbin/sshd","-D"]
+# USER root
+# RUN mkdir /run/sshd
+# CMD ["/usr/sbin/sshd","-D"]
+
 
 # Missing library for opencv
-#RUN apt-get install 
+#RUN apt-get install
