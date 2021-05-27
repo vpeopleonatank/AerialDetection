@@ -118,23 +118,24 @@ async def upload_file(files: List[UploadFile] = File(...)):
             # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
             detections = model.inference_single(img, (512, 512), (1024, 1024))
             res["images"].append(create_image_info(image_id, file.filename, (width, height)))
-            for i, _ in enumerate(CLASSES):
-                dets = detections[i]
-                # with open('/root/tmp/demo/dets.npy', 'wb') as f:
-                #     np.save(f, dets)
-                ptns = [det[:8] for det in dets]
-                masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
+            if len(detections) != 0:
+                for i, _ in enumerate(CLASSES):
+                    dets = detections[i]
+                    # with open('/root/tmp/demo/dets.npy', 'wb') as f:
+                    #     np.save(f, dets)
+                    ptns = [det[:8] for det in dets]
+                    masks = mask.frPyObjects(ptns, height, width)  # Return Run-length encoding of binary masks
 
-                for j, det in enumerate(dets):
-                    if det[-1] < 0.3:
-                        continue
-                    ann = create_annotation_info(annotation_id, image_id,
-                        res["categories"][0],
-                        det, masks[j])
-                    if ann is None:
-                        continue
-                    res["annotations"].append(ann)
-                    annotation_id += 1
+                    for j, det in enumerate(dets):
+                        if det[-1] < 0.3:
+                            continue
+                        ann = create_annotation_info(annotation_id, image_id,
+                            res["categories"][0],
+                            det, masks[j])
+                        if ann is None:
+                            continue
+                        res["annotations"].append(ann)
+                        annotation_id += 1
 
             image_id += 1
 
