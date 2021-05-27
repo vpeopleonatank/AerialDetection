@@ -121,6 +121,8 @@ async def upload_file(files: List[UploadFile] = File(...)):
             if len(detections) != 0:
                 for i, _ in enumerate(CLASSES):
                     dets = detections[i]
+                    if dets.shape[0] == 0:
+                        continue
                     # with open('/root/tmp/demo/dets.npy', 'wb') as f:
                     #     np.save(f, dets)
                     ptns = [det[:8] for det in dets]
