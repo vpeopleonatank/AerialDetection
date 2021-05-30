@@ -157,7 +157,9 @@ data = dict(
         flip_ratio=0.5,
         with_mask=True,
         with_crowd=True,
-        with_label=True),
+        with_label=True,
+        rotate_aug=dict(border_value=0, small_filter=6)
+        ),
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'trainval1024/Shipdata_trainval_full_1024_2.json',
@@ -202,7 +204,7 @@ log_config = dict(
     ])
 # yapf:enable
 # runtime settings
-total_epochs = 40
+total_epochs = 30
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/faster_rcnn_RoITrans_r50_fpn_1x_shipdata_2_aug'
