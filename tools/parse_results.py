@@ -29,6 +29,11 @@ from DOTA_devkit.ResultMerge_multi_process import *
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
     parser.add_argument('--config', default='configs/DOTA/faster_rcnn_r101_fpn_1x_dota2_v3_RoITrans_v5.py')
+
+    parser.add_argument('--pkl-path', default=r'work_dirs/results.pkl',
+                        help='path to pickle result file')
+    parser.add_argument('--out-path', default=r'work_dirs/output_path',
+                        help='Output folder')
     parser.add_argument('--type', default=r'HBB',
                         help='parse type of detector')
     args = parser.parse_args()
@@ -122,9 +127,12 @@ def parse_results(config_file, resultfile, dstpath, type):
 if __name__ == '__main__':
     args = parse_args()
     config_file = args.config
-    config_name = os.path.splitext(os.path.basename(config_file))[0]
-    pkl_file = os.path.join('work_dirs', config_name, 'results.pkl')
-    output_path = os.path.join('work_dirs', config_name)
+    # config_name = os.path.splitext(os.path.basename(config_file))[0]
+    # pkl_file = os.path.join('work_dirs', config_name, 'results.pkl')
+    # output_path = os.path.join('work_dirs', config_name)
+    pkl_file = args.pkl_path
+    output_path = args.out_path
+    os.makedirs(output_path, exist_ok=True)
     type = args.type
     parse_results(config_file, pkl_file, output_path, type)
 

@@ -9,6 +9,7 @@ import numpy as np
 import re
 import time
 import sys
+import argparse
 # sys.path.insert(0,'..')
 # print('fffffffffffffffffff')
 
@@ -238,7 +239,25 @@ def mergebypoly_multiprocess(srcpath, dstpath, nms_type='py_cpu_nms_poly_fast', 
         mergebase_parallel(srcpath,
                            dstpath,
                            obb_hybrid_NMS_partial, h_thresh)
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Merge result')
+    parser.add_argument('--function', help='1: merge by poly, 2: merge by rec', type=str,
+            default=r'1')
+    parser.add_argument('--results-path', help='result path', type=str,
+            default=r'Task1_results')
+    parser.add_argument('--results-nms-path', help='result nms path', type=str,
+            default=r'Task1_results_nms')
+    
+    args = parser.parse_args()
+
+    return args
+
 if __name__ == '__main__':
-    # mergebypoly(r'/home/dingjian/code/DOTA_devkit/Test_nms2/Task1_results', r'/home/dingjian/code/DOTA_devkit/Test_nms2/Task1_results_0.1_nms_fast')
-    mergebyrec(r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results',
-               r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results_nms')
+    args = parse_args()
+    if args.function == "1":
+        mergebypoly_multiprocess(args.results_path, args.results_nms_path)
+    elif args.function == "2":
+        mergebyrec(args.results_path, args.results_nms_path)
+        # mergebyrec(r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results',
+                # r'/home/dingjian/Documents/Research/experiments/mmdetection_DOTA/scratch_faster_rcnn_r50_fpn_gn_2x_dota2/Task2_results_nms')
