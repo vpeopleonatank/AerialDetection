@@ -286,7 +286,7 @@ def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None
         # plt.plot(rec, prec)
     # plt.show()
     if plot_pr_curve:
-        for i, classname in enumerate(classnames):
+        for _, classname in enumerate(classnames):
             plt.figure(figsize=(8,4))
             plt.xlabel('recall')
             plt.ylabel('precision')
