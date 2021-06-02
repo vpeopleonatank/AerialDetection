@@ -1,3 +1,4 @@
+from codecs import ignore_errors
 import dota_utils as util
 import os
 import cv2
@@ -46,9 +47,11 @@ def DOTA2COCOTrain(srcpath, destfile, cls_names, difficult='2'):
 
             # annotations
             objects = util.parse_dota_poly2(file)
+            ignored_counts = 0
             for obj in objects:
                 if obj['difficult'] == difficult:
-                    print('difficult: ', difficult)
+                    # print('difficult: ', difficult)
+                    ignored_counts += 1
                     continue
                 single_obj = {}
                 single_obj['area'] = obj['area']
@@ -66,7 +69,8 @@ def DOTA2COCOTrain(srcpath, destfile, cls_names, difficult='2'):
                 single_obj['id'] = inst_count
                 inst_count = inst_count + 1
             image_id = image_id + 1
-        print(inst_count)
+        print('Total objects ', inst_count)
+        print('Total ignored objects ', ignored_counts)
         json.dump(data_dict, f_out)
 
 def DOTA2COCOTest(srcpath, destfile, cls_names):
