@@ -61,12 +61,13 @@ def read_images(img_path, label_path):
     
 
 def convert_voc2dota(folder_path, folder_out_path):
-    image_paths = glob.glob(f"{folder_path}/*.png")
+    xml_paths = glob.glob(f"{folder_path}/*.xml")
     
-    for image_path in image_paths:
-        base_path = f'{os.path.dirname(image_path)}'
-        file_name = os.path.splitext(os.path.basename(image_path))[0]
-        label_path = f"{base_path}/{file_name}.xml"
+    for label_path in xml_paths:
+        # base_path = f'{os.path.dirname(image_path)}'
+        # file_name = os.path.splitext(os.path.basename(image_path))[0]
+        # label_path = f"{base_path}/{file_name}.xml"
+        file_name = os.path.splitext(os.path.basename(label_path))[0]
         _, boxes = read_label(label_path)
         with open(f'{folder_out_path}/{file_name}.txt', 'w') as f:
             for box in boxes:
@@ -172,10 +173,8 @@ def main():
     # out_folder = '/mnt/Data/Project/ShipDetection/Data_Ship/test_raw_data'
     if args.function == "1":
         convert_voc2dota(args.in_folder, args.out_folder)
-        print('1')
     elif args.function == "2":
         split_data_have_label(args.in_folder, args.out_folder)
-        print('2')
     elif args.function == "3":
         train_val_split(args.in_folder, args.out_folder)
 
