@@ -10,6 +10,7 @@ import numpy as np
 from dotadevkit.polyiou import polyiou
 from dotadevkit.misc.dota_utils import dota_classes
 import argparse
+import matplotlib.pyplot as plt
 
 
 def parse_gt(filename, version):
@@ -246,7 +247,7 @@ def voc_eval(
     return rec, prec, ap
 
 
-def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None):
+def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None, plot_pr_curve=False):
     assert version in ["1.0", "1.5", "2.0", "custom"]
     classnames = dota_classes
     if version == "1.5":
@@ -257,6 +258,8 @@ def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None
         classnames = custom_classes
 
     classaps = []
+    classes_rec = []
+    classes_prec = []
     map = 0
     for classname in classnames:
         print("classname:", classname)
@@ -273,6 +276,8 @@ def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None
         # print('rec: ', rec, 'prec: ', prec, 'ap: ', ap)
         print("ap: ", ap)
         classaps.append(ap)
+        classes_rec.append(rec)
+        classes_prec.append(prec)
 
         # umcomment to show p-r curve of each category
         # plt.figure(figsize=(8,4))
@@ -280,6 +285,16 @@ def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None
         # plt.ylabel('precision')
         # plt.plot(rec, prec)
     # plt.show()
+    if plot_pr_curve:
+        for i, classname in enumerate(classnames):
+            plt.figure(figsize=(8,4))
+            plt.xlabel('recall')
+            plt.ylabel('precision')
+            plt.title(classname)
+            plt.plot(rec, prec)
+
+        plt.show()
+
     map = map / len(classnames)
     print("map:", map)
     classaps = 100 * np.array(classaps)
@@ -295,6 +310,8 @@ def parse_args():
             default=r'test.txt')
     parser.add_argument('--version', help='evaluation class', type=str,
             default=r'1.0')
+
+    parser.add_argument('--plot-pr-curve', default=False, action='store_true')
     
     parser.add_argument("--classes", nargs="+", default=["ship",])
 
@@ -309,4 +326,4 @@ if __name__ == "__main__":
     # )
     # annotations = r"/home/ashwin/Desktop/Projects/rasterdet/data/dota/val/labelTxt/{:s}.txt"
     # images = r"/home/ashwin/Desktop/Projects/rasterdet/data/dota/val/val.txt"
-    evaluate(args.det_pattern, args.ann_path, args.image_txt, args.version, args.classes)
+    evaluate(args.det_pattern, args.ann_path, args.image_txt, args.version, args.classes, args.plot_pr_curve)
