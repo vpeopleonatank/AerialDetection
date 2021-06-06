@@ -62,6 +62,7 @@ def read_images(img_path, label_path):
 
 def convert_voc2dota(folder_path, folder_out_path):
     xml_paths = glob.glob(f"{folder_path}/*.xml")
+    os.makedirs(folder_out_path, exist_ok=True)
     
     for label_path in xml_paths:
         # base_path = f'{os.path.dirname(image_path)}'
