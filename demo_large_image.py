@@ -141,8 +141,8 @@ if __name__ == '__main__':
         for image_path in os.listdir(args.image_path):
             roitransformer.inference_single_vis(os.path.join(args.image_path, image_path),
                                             os.path.join(args.out_path, image_path),
-                                            (args.chip_size, args.chip_size),
-                                            (args.slide_size, args.slide_size))
+                                            (args.slide_size, args.slide_size),
+                                            (args.chip_size, args.chip_size))
     else:
         roitransformer.inference_single_vis(args.image_path,
                                         args.out_path,
