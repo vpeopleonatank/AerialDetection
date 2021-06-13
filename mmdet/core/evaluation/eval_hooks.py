@@ -86,8 +86,8 @@ class DistEvalmAPHook(DistEvalHook):
             labels = ann['labels']
             if gt_ignore is not None:
                 ignore = np.concatenate([
-                    np.zeros(bboxes.shape[0], dtype=np.bool),
-                    np.ones(ann['bboxes_ignore'].shape[0], dtype=np.bool)
+                    np.zeros(bboxes.shape[0], dtype=bool),
+                    np.ones(ann['bboxes_ignore'].shape[0], dtype=bool)
                 ])
                 gt_ignore.append(ignore)
                 bboxes = np.vstack([bboxes, ann['bboxes_ignore']])
