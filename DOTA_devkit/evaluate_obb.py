@@ -274,6 +274,7 @@ def evaluate(detpath, annopath, imagesetfile, version="1.0", custom_classes=None
         )
         map = map + ap
         # print('rec: ', rec, 'prec: ', prec, 'ap: ', ap)
+        print('recall: ' , rec[-1], ', precision:', prec[-1])
         print("ap: ", ap)
         classaps.append(ap)
         classes_rec.append(rec)
