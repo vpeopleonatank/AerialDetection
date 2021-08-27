@@ -137,6 +137,9 @@ if __name__ == '__main__':
     roitransformer = DetectorModel(args.config_file,
                   args.checkpoint_path, args.specified_class)
 
+    if args.bbox_color is not None:
+        bbox_color = tuple(args.bbox_color)
+
     if args.predict_folder:
         os.makedirs(args.out_path, exist_ok=True)
         for image_path in os.listdir(args.image_path):
@@ -144,9 +147,10 @@ if __name__ == '__main__':
                                             os.path.join(args.out_path, image_path),
                                             (args.slide_size, args.slide_size),
                                             (args.chip_size, args.chip_size),
-                                            args.bbox_color)
+                                            bbox_color)
     else:
         roitransformer.inference_single_vis(args.image_path,
                                         args.out_path,
                                         (args.slide_size, args.slide_size),
-                                        (args.chip_size, args.chip_size))
+                                        (args.chip_size, args.chip_size),
+                                        bbox_color)
