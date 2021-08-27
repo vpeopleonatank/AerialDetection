@@ -108,9 +108,9 @@ class DetectorModel():
             keep = py_cpu_nms_poly_fast_np(total_detections[i], 0.1)
             total_detections[i] = total_detections[i][keep]
         return total_detections
-    def inference_single_vis(self, srcpath, dstpath, slide_size, chip_size):
+    def inference_single_vis(self, srcpath, dstpath, slide_size, chip_size, bbox_color=None):
         detections = self.inference_single(srcpath, slide_size, chip_size)
-        img = draw_poly_detections(srcpath, detections, self.classnames, scale=1, threshold=0.3)
+        img = draw_poly_detections(srcpath, detections, self.classnames, scale=1, threshold=0.3, bbox_color=bbox_color)
         cv2.imwrite(dstpath, img)
 
 def parse_args():
@@ -128,6 +128,7 @@ def parse_args():
     parser.add_argument('--predict-folder', default=False, action='store_true')
     parser.add_argument('--chip-size', type=int, default=1024)
     parser.add_argument('--slide-size', type=int, default=512)
+    parser.add_argument('--bbox-color', type=int, nargs='+', default=None)
     args = parser.parse_args()
     return args
 
@@ -142,7 +143,8 @@ if __name__ == '__main__':
             roitransformer.inference_single_vis(os.path.join(args.image_path, image_path),
                                             os.path.join(args.out_path, image_path),
                                             (args.slide_size, args.slide_size),
-                                            (args.chip_size, args.chip_size))
+                                            (args.chip_size, args.chip_size),
+                                            args.bbox_color)
     else:
         roitransformer.inference_single_vis(args.image_path,
                                         args.out_path,

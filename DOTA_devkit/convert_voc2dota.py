@@ -17,17 +17,22 @@ def read_label(xml_file: str):
 
     list_with_all_boxes = []
     filename = root.find("filename").text
-    for boxes in root.iter("object"):
+    if xml_file == '/mnt/Data/Project/ShipDetection/Data_Ship/Annotated/3m/5_7_2021/xml/20210627_022552_38_2463.xml':
+        import ipdb; ipdb.set_trace()
+    try:
+        for boxes in root.iter("object"):
 
-        cx = float(boxes.find("robndbox/cx").text)
-        cy = float(boxes.find("robndbox/cy").text)
-        w = float(boxes.find("robndbox/w").text)
-        h = float(boxes.find("robndbox/h").text)
-        angle = float(boxes.find("robndbox/angle").text)
-        name = str(boxes.find("name").text)
+            cx = float(boxes.find("robndbox/cx").text)
+            cy = float(boxes.find("robndbox/cy").text)
+            w = float(boxes.find("robndbox/w").text)
+            h = float(boxes.find("robndbox/h").text)
+            angle = float(boxes.find("robndbox/angle").text)
+            name = str(boxes.find("name").text)
 
-        list_with_single_boxes = [cx, cy, w, h, angle, name]
-        list_with_all_boxes.append(list_with_single_boxes)
+            list_with_single_boxes = [cx, cy, w, h, angle, name]
+            list_with_all_boxes.append(list_with_single_boxes)
+    except Exception as e:
+        import ipdb; ipdb.set_trace()
 
     return filename, list_with_all_boxes
 

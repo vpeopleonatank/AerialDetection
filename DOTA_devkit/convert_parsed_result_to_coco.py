@@ -92,12 +92,15 @@ def convert_nms_parsed_result_to_coco(
 
             width, height = xmax - xmin, ymax - ymin
             single_obj["bbox"] = xmin, ymin, width, height
+            single_obj["score"] = float(det["score"])
             single_obj["image_id"] = single_image["id"]
             single_obj["id"] = inst_count
             data_dict["annotations"].append(single_obj)
-            single_obj["segmentation"] = mask.frPyObjects(
-                single_obj["segmentation"], height, width
-            )
+            # single_obj["segmentation"] = mask.frPyObjects(
+            #     single_obj["segmentation"], height, width
+            # )[0]
+            # if isinstance(single_obj["segmentation"]["counts"], bytes):
+            #     single_obj["segmentation"]["counts"] = single_obj["segmentation"]["counts"].decode()
             segm_json_results.append(single_obj)
 
             inst_count = inst_count + 1
@@ -106,8 +109,7 @@ def convert_nms_parsed_result_to_coco(
         if ret_type == "coco_ann":
             json.dump(data_dict, f_out)
         if ret_type == "coco_result":
-            import ipdb; ipdb.set_trace()
-            json.dumps(segm_json_results, f_out)
+            json.dump(segm_json_results, f_out)
 
 
 def parse_args():

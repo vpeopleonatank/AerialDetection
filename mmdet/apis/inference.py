@@ -142,7 +142,7 @@ def show_result(img, result, class_names, score_thr=0.3, out_file=None):
         show=out_file is None,
         out_file=out_file)
 
-def draw_poly_detections(img, detections, class_names, scale, threshold=0.2):
+def draw_poly_detections(img, detections, class_names, scale, threshold=0.2, bbox_color=None):
     """
 
     :param img:
@@ -161,7 +161,10 @@ def draw_poly_detections(img, detections, class_names, scale, threshold=0.2):
     color_white = (255, 255, 255)
 
     for j, name in enumerate(class_names):
-        color = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
+        if bbox_color is not None:
+            color = bbox_color 
+        else:
+            color = (random.randint(0, 256), random.randint(0, 256), random.randint(0, 256))
         try:
             dets = detections[j]
         except:
