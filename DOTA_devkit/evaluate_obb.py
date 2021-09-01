@@ -238,6 +238,9 @@ def voc_eval(
     fp = np.cumsum(fp)
     tp = np.cumsum(tp)
 
+    print("total false positive ", fp[-1])
+    print("total true positive ", tp[-1])
+
     rec = tp / float(npos)
     # avoid divide by zero in case the first detection matches a difficult
     # ground truth
