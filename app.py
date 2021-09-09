@@ -127,15 +127,13 @@ async def upload_file(files: List[UploadFile] = File(...), model_type: str = For
     # with open('/root/tmp/data/results.json', 'r') as f:
     #     data = json.load(f)
 
-    # return data
-    if model_type not in ["0_5", "3"]:
-        return { "error": "specify model_type: 0_5 or 3" } 
     #model: DetectorModel
     if model_type == "0_5m":
         model = model_0_5m
     elif model_type == "3m":
         model = model_3m
-
+    else:
+        return { "error": "specify model_type: 0_5m or 3m" } 
     try:
         for i, name in enumerate(CLASSES):
             res["categories"].append(create_category_info(name, i + 1, name))
