@@ -131,9 +131,9 @@ async def upload_file(files: List[UploadFile] = File(...), model_type: str = For
     if model_type not in ["0_5", "3"]:
         return { "error": "specify model_type: 0_5 or 3" } 
     #model: DetectorModel
-    if model_type == "0_5":
+    if model_type == "0_5m":
         model = model_0_5m
-    elif model_type == "3":
+    elif model_type == "3m":
         model = model_3m
 
     try:
