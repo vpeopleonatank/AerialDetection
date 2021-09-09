@@ -121,6 +121,8 @@ async def upload_file(files: List[UploadFile] = File(...), model_type: str = For
     #     data = json.load(f)
 
     # return data
+    if model_type not in ["0_5", "3"]:
+        return { "error": "specify model_type: 0_5 or 3" } 
     #model: DetectorModel
     if model_type == "0_5":
         model = model_0_5m
