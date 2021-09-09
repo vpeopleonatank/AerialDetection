@@ -92,12 +92,19 @@ app.add_middleware(
 )
 
 CLASSES = ("ship",)
+
+
+CONFIG_PATH_0_5m='configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py'
+CKPT_PATH_0_5m='work_dirs/epoch_8_0_5m.pth'
+
+CONFIG_PATH_3m='configs/DOTA/faster_rcnn_RoITrans_r50_fpn_1x_shipdata.py'
+CKPT_PATH_3m='work_dirs/epoch_1_3m.pth'
 model_0_5m = DetectorModel(
-    config_file=os.getenv("CONFIG_PATH_0_5m"), checkpoint_file=os.getenv("CKPT_PATH_0_5m")
+    config_file=CONFIG_PATH_0_5m, checkpoint_file=CKPT_PATH_0_5m
 )
 
 model_3m = DetectorModel(
-    config_file=os.getenv("CONFIG_PATH_3m"), checkpoint_file=os.getenv("CKPT_PATH_3m")
+    config_file=CONFIG_PATH_3m, checkpoint_file=CKPT_PATH_3m
 )
 
 # def load_image_into_numpy_array(data):
