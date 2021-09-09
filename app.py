@@ -1,6 +1,6 @@
 import os
 from demo_large_image import DetectorModel
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Form, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
@@ -92,8 +92,12 @@ app.add_middleware(
 )
 
 CLASSES = ("ship",)
-model = DetectorModel(
-    config_file=os.getenv("CONFIG_PATH"), checkpoint_file=os.getenv("CKPT_PATH")
+model_0_5m = DetectorModel(
+    config_file=os.getenv("CONFIG_PATH_0_5m"), checkpoint_file=os.getenv("CKPT_PATH_0_5m")
+)
+
+model_3m = DetectorModel(
+    config_file=os.getenv("CONFIG_PATH_3m"), checkpoint_file=os.getenv("CKPT_PATH_3m")
 )
 
 # def load_image_into_numpy_array(data):
@@ -108,14 +112,20 @@ def load_image_into_numpy_array(data):
 
 
 @app.post("/detectship")
-async def upload_file(files: List[UploadFile] = File(...)):
+async def upload_file(files: List[UploadFile] = File(...), model_type: str = Form(...)):
     print("Arrived")
+    print(model_type)
     res = {"info": meta_info, "images": [], "annotations": [], "categories": []}
 
     # with open('/root/tmp/data/results.json', 'r') as f:
     #     data = json.load(f)
 
     # return data
+    #model: DetectorModel
+    if model_type == "0_5":
+        model = model_0_5m
+    elif model_type == "3":
+        model = model_3m
 
     try:
         for i, name in enumerate(CLASSES):
@@ -126,7 +136,7 @@ async def upload_file(files: List[UploadFile] = File(...)):
             img = load_image_into_numpy_array(await file.read())
             height, width, _ = img.shape
             # detections = model.inference_single(img, (1024, 1024), (3072, 3072))
-            detections = model.inference_single(img, (512, 512), (1024, 1024))
+            detections = model.inference_single(img, (1024, 1024), (2048, 2048))
             res["images"].append(
                 create_image_info(image_id, file.filename, (width, height))
             )
