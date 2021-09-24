@@ -137,6 +137,7 @@ if __name__ == '__main__':
     roitransformer = DetectorModel(args.config_file,
                   args.checkpoint_path, args.specified_class)
 
+    bbox_color = None
     if args.bbox_color is not None:
         bbox_color = tuple(args.bbox_color)
 
